@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Athena.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,14 @@ namespace Athena.Repository
     /// </summary>
     public class OrganizationRepository : IOrganizationRepository
     {
+        private readonly AthenaVaultContext _dbContext;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dbContext"></param>
+        public OrganizationRepository(AthenaVaultContext dbContext) {
+            _dbContext = dbContext;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -20,7 +29,8 @@ namespace Athena.Repository
         {
             return Task.Run(() =>
             {
-                return "Hello "+ name;
+                var data = _dbContext.Subject.FirstOrDefault(x => x.Name == "Physics");
+                return data.Name;
             });
         }
     }

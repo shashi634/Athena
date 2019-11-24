@@ -6,8 +6,14 @@ using Unity.WebApi;
 
 namespace Athena
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class UnityConfig
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
