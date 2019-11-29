@@ -12,12 +12,12 @@ namespace Athena.Repository
     /// </summary>
     public class OrganizationRepository : IOrganizationRepository
     {
-        private readonly AthenaVaultContext _dbContext;
+        private readonly DbContextAthena _dbContext;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dbContext"></param>
-        public OrganizationRepository(AthenaVaultContext dbContext) {
+        public OrganizationRepository(DbContextAthena dbContext) {
             _dbContext = dbContext;
         }
         /// <summary>
