@@ -1,4 +1,5 @@
-﻿using Athena.Service;
+﻿using Athena.Models.Dto;
+using Athena.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,12 @@ namespace Athena.Controllers
         public OrganizationController(IOrganizationService organizationService) {
             _organizationService = organizationService;
         }
-        public async Task<IHttpActionResult> Get()
+        [Route("api/Organization/Add")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddOrganization()
         {
-            var data = await _organizationService.GetHello("shashi shanker singh");
+            var dto = new OrganizationDto();
+            var data = await _organizationService.AddUpdateOrganization(dto);
             return Ok(data);
         }
     }

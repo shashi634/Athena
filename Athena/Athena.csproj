@@ -121,6 +121,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DbContextAthena.cs" />
+    <Compile Include="Models\Dto\OrganizationDto.cs" />
     <Compile Include="Models\ExamCoupan.cs" />
     <Compile Include="Models\ExamFee.cs" />
     <Compile Include="Models\ExamResult.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IOrganizationRepository.cs" />
     <Compile Include="Repository\OrganizationRepository.cs" />
+    <Compile Include="Service\CustomExceptionValidationService.cs" />
+    <Compile Include="Service\ICustomExceptionValidationService.cs" />
     <Compile Include="Service\IOrganizationService.cs" />
     <Compile Include="Service\OrganizationService.cs" />
   </ItemGroup>
@@ -150,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Dto\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

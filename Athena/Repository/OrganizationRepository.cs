@@ -8,7 +8,7 @@ using System.Web;
 namespace Athena.Repository
 {
     /// <summary>
-    /// 
+    /// Organization Repository 
     /// </summary>
     public class OrganizationRepository : IOrganizationRepository
     {
@@ -20,18 +20,25 @@ namespace Athena.Repository
         public OrganizationRepository(DbContextAthena dbContext) {
             _dbContext = dbContext;
         }
+
         /// <summary>
-        /// 
+        /// Create Update Organization
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="organization"></param>
         /// <returns></returns>
-        public Task<string> GetTestData(string name)
+        public void CreateUpdateOrganization(Organization organization)
         {
-            return Task.Run(() =>
-            {
-                var data = _dbContext.Subject.FirstOrDefault(x => x.Name == "Physics");
-                return data.Name;
-            });
+           _dbContext.Organization.Add(organization);
+           _dbContext.SaveChanges();
+        }
+        /// <summary>
+        /// Get Organization Details
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns>Organization</returns>
+        public Organization GetOrganization(Guid organizationId)
+        {
+            return _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId);
         }
     }
 }
