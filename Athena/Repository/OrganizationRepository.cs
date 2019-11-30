@@ -1,6 +1,7 @@
 ﻿using Athena.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,19 +27,35 @@ namespace Athena.Repository
         /// </summary>
         /// <param name="organization"></param>
         /// <returns></returns>
-        public void CreateUpdateOrganization(Organization organization)
+        public Task CreateOrganization(Organization organization)
         {
-           _dbContext.Organization.Add(organization);
-           _dbContext.SaveChanges();
+            return Task.Run(()=> {
+                _dbContext.Organization.Add(organization);
+                _dbContext.SaveChanges();
+            });
         }
         /// <summary>
         /// Get Organization Details
         /// </summary>
         /// <param name="organizationId"></param>
         /// <returns>Organization</returns>
-        public Organization GetOrganization(Guid organizationId)
+        public Task<Organization> GetOrganization(Guid organizationId)
         {
-            return _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId);
+            return Task.Run(() => {
+                return _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId);
+            });
+        }
+
+        /// <summary>
+        /// Update Organization
+        /// </summary>
+        /// <param name="organization"></param>
+        public Task UpdateOrganization(Organization organization)
+        {
+            return Task.Run(() => {
+                _dbContext.Entry(organization).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+            });
         }
     }
 }

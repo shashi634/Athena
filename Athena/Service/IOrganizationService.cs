@@ -17,7 +17,7 @@ namespace Athena.Service
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        Task<OrganizationDto> GetOrganizationDetails(Guid orgId);
+        Task<GetOrganizationDto> GetOrganizationDetails(Guid orgId);
 
         /// <summary>
         /// Add Update Organization

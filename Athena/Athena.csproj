@@ -121,6 +121,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DbContextAthena.cs" />
+    <Compile Include="Models\Dto\AddOrganizationDto.cs" />
+    <Compile Include="Models\Dto\GetOrganizationDto.cs" />
     <Compile Include="Models\Dto\OrganizationDto.cs" />
     <Compile Include="Models\ExamCoupan.cs" />
     <Compile Include="Models\ExamFee.cs" />

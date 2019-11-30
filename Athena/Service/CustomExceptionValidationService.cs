@@ -20,12 +20,21 @@ namespace Athena.Service
         /// <param name="statusCode"></param>
         public HttpResponseException CustomValidation(string message, HttpStatusCode statusCode)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            var response = new HttpResponseMessage(statusCode)
             {
                 Content = new StringContent(message, System.Text.Encoding.UTF8, "text/plain"),
                 StatusCode = statusCode
             };
-           throw new HttpResponseException(response);
+            throw new HttpResponseException(response);
         }
+    }
+    /// <summary>
+    /// Error Message
+    /// </summary>
+    public class ErrorMessage {
+        /// <summary>
+        /// Message
+        /// </summary>
+        public int Message { get; set; }
     }
 }
