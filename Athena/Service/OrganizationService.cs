@@ -34,7 +34,7 @@ namespace Athena.Service
         /// </summary>
         /// <param name="organizationDto"></param>
         /// <returns>Guid</returns>
-        public async Task<Guid> AddUpdateOrganization(OrganizationDto organizationDto)
+        public async Task<ReturnOrganizationDto> AddUpdateOrganization(OrganizationDto organizationDto)
         {
             try
             {
@@ -66,19 +66,41 @@ namespace Athena.Service
                         PinCode = organizationDto.PinCode,
                         Description = organizationDto.Description,
                         IsActive = false,
-                        JoiningDate = System.DateTime.UtcNow,
+                        JoiningDate = DateTime.UtcNow,
                     };
                     await _organizationRepository.CreateOrganization(organizationDBModel);
-                    return (Guid)organizationDBModel.PublicId;
+                    return new ReturnOrganizationDto { OrganizationId = (Guid)organizationDBModel.PublicId };
                 }
                 else
                 {
                     // update
+                    bool isValid = Guid.TryParse(organizationDto.PublicId, out Guid orgPublicId);
+                    if (!isValid)
+                    {
+                        _customExceptionValidationService.CustomValidation("Organization Id is invalid", HttpStatusCode.BadRequest);
+                    }
+                    var orgDetails = _organizationRepository.GetOrganizationByPublicId(orgPublicId);
+                    if (orgDetails == null)
+                    {
+                        _customExceptionValidationService.CustomValidation("Organization Not Found", HttpStatusCode.NotFound);
+                    }
+                    orgDetails.Name = organizationDto.Name;
+                    orgDetails.Description = organizationDto.Description;
+                    orgDetails.Address = organizationDto.Address;
+                    orgDetails.PinCode = organizationDto.PinCode;
+                    orgDetails.IsActive = organizationDto.IsActive;
+                    if (organizationDto.IsActive)
+                    {
+                        orgDetails.ActivationDate = DateTime.UtcNow;
+                    }
+                    await _organizationRepository.UpdateOrganization(orgDetails);
+                    return new ReturnOrganizationDto { OrganizationId = orgPublicId };
                 }
-                return Guid.NewGuid();
+                
             }
             catch (Exception ex)
             {
+               _customExceptionValidationService.CustomValidation(ex.Message, HttpStatusCode.InternalServerError);
                 throw;
             }
         }
@@ -88,9 +110,20 @@ namespace Athena.Service
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        public Task<GetOrganizationDto> GetOrganizationDetails(Guid orgId)
+        public Task<GetOrganizationDto> GetOrganizationDetails(string orgId)
         {
-            var orgDetails = _organizationRepository.GetOrganization(orgId);
+            if (orgId == null)
+            {
+                _customExceptionValidationService.CustomValidation("Organization Id is invalid", HttpStatusCode.BadRequest);
+            }
+            bool isValid = Guid.TryParse(orgId, out Guid guidOutput);
+            if (!isValid) {
+                _customExceptionValidationService.CustomValidation("Organization Id is invalid", HttpStatusCode.BadRequest);
+            }
+            var orgDetails = _organizationRepository.GetOrganization(guidOutput);
+            if (orgDetails.Result == null) {
+                _customExceptionValidationService.CustomValidation("Organization Not Found", HttpStatusCode.NotFound);
+            }
             return Task.Run(()=> {
                 return new GetOrganizationDto { 
                 Name = orgDetails.Result.Name,
@@ -100,6 +133,7 @@ namespace Athena.Service
                 Description = orgDetails.Result.Description,
                 IsActive = orgDetails.Result.IsActive,
                 JoiningDate = orgDetails.Result.JoiningDate,
+                ActivationDate = orgDetails.Result.ActivationDate
                 };
             });
         }

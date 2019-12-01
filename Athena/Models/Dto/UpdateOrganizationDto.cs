@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace Athena.Models.Dto
 {
-    /// <summary>
-    /// OrganizationDto
-    /// </summary>
-    public class OrganizationDto
+    public class UpdateOrganizationDto
     {
         public string Name { get; set; }
 
@@ -16,8 +16,6 @@ namespace Athena.Models.Dto
         public string City { get; set; }
 
         public int? PinCode { get; set; }
-
-        public string PublicId { get; set; }
 
         public bool IsActive { get; set; }
 

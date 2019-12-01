@@ -30,12 +30,41 @@ namespace Athena.Controllers
         /// <returns></returns>
         [Route("api/Organization/Add")]
         [HttpPost]
-        public async Task<IHttpActionResult> AddOrganization(OrganizationDto organization)
+        public async Task<HttpResponseMessage> AddOrganization(AddOrganizationDto organization)
         {
-            var data = await _organizationService.AddUpdateOrganization(organization);
-            return Ok(data);
+            var orgDto = new OrganizationDto { 
+            Name = organization.Name,
+            Description = organization.Description,
+            Address = organization.Address,
+            City = organization.City,
+            PinCode = organization.PinCode
+            };
+            var data = await _organizationService.AddUpdateOrganization(orgDto);
+            return Request.CreateResponse(HttpStatusCode.Created, data);
         }
-
+        /// <summary>
+        /// Update Organization
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <param name="organization"></param>
+        /// <returns></returns>
+        [Route("api/Organization/Update/{orgId}")]
+        [HttpPut]
+        public async Task<HttpResponseMessage> UpdateOrganization(string orgId, UpdateOrganizationDto organization)
+        {
+            var orgDto = new OrganizationDto
+            {
+                Name = organization.Name,
+                Description = organization.Description,
+                Address = organization.Address,
+                City = organization.City,
+                PinCode = organization.PinCode,
+                IsActive = organization.IsActive,
+                PublicId = orgId
+            };
+            var data = await _organizationService.AddUpdateOrganization(orgDto);
+            return Request.CreateResponse(HttpStatusCode.Created, data);
+        }
         /// <summary>
         /// Get Organization
         /// </summary>
@@ -43,10 +72,10 @@ namespace Athena.Controllers
         /// <returns>OrganizationDto</returns>
         [Route("api/Organization/Get/{orgId}")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetOrganization(Guid orgId)
+        public async Task<HttpResponseMessage> GetOrganization(string orgId)
         {
             var data = await _organizationService.GetOrganizationDetails(orgId);
-            return Ok(data);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

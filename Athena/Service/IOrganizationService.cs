@@ -17,13 +17,13 @@ namespace Athena.Service
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        Task<GetOrganizationDto> GetOrganizationDetails(Guid orgId);
+        Task<GetOrganizationDto> GetOrganizationDetails(string orgId);
 
         /// <summary>
         /// Add Update Organization
         /// </summary>
         /// <param name="organizationDto"></param>
         /// <returns></returns>
-        Task<Guid> AddUpdateOrganization(OrganizationDto organizationDto);
+        Task<ReturnOrganizationDto> AddUpdateOrganization(OrganizationDto organizationDto);
     }
 }

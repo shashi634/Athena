@@ -9,10 +9,20 @@ namespace Athena
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected void Application_Start()
         {
             UnityConfig.RegisterComponents();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        protected void Application_BeginRequest()
+        {
+            var k = HttpContext.Current;
         }
     }
 }

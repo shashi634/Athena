@@ -45,6 +45,15 @@ namespace Athena.Repository
                 return _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId);
             });
         }
+        /// <summary>
+        /// Get Organization By PublicId
+        /// </summary>
+        /// <param name="publicId"></param>
+        /// <returns></returns>
+        public Organization GetOrganizationByPublicId(Guid publicId)
+        {
+            return _dbContext.Organization.FirstOrDefault(x => x.PublicId == publicId);
+        }
 
         /// <summary>
         /// Update Organization

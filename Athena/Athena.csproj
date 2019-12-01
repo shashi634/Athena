@@ -124,6 +124,8 @@
     <Compile Include="Models\Dto\AddOrganizationDto.cs" />
     <Compile Include="Models\Dto\GetOrganizationDto.cs" />
     <Compile Include="Models\Dto\OrganizationDto.cs" />
+    <Compile Include="Models\Dto\ReturnOrganizationDto.cs" />
+    <Compile Include="Models\Dto\UpdateOrganizationDto.cs" />
     <Compile Include="Models\ExamCoupan.cs" />
     <Compile Include="Models\ExamFee.cs" />
     <Compile Include="Models\ExamResult.cs" />
