@@ -124,10 +124,13 @@
     <Compile Include="Models\DbContextAthena.cs" />
     <Compile Include="Models\Dto\AddOrganizationDto.cs" />
     <Compile Include="Models\Dto\AddSubjectDto.cs" />
+    <Compile Include="Models\Dto\AddUserDto.cs" />
     <Compile Include="Models\Dto\GetOrganizationDto.cs" />
     <Compile Include="Models\Dto\GetSubjectsDto.cs" />
+    <Compile Include="Models\Dto\GetUserDto.cs" />
     <Compile Include="Models\Dto\OrganizationDto.cs" />
     <Compile Include="Models\Dto\ReturnOrganizationDto.cs" />
+    <Compile Include="Models\Dto\ReturnUserDto.cs" />
     <Compile Include="Models\Dto\UpdateOrganizationDto.cs" />
     <Compile Include="Models\ExamCoupan.cs" />
     <Compile Include="Models\ExamFee.cs" />
@@ -144,14 +147,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IOrganizationRepository.cs" />
     <Compile Include="Repository\ISubjectRepository.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\OrganizationRepository.cs" />
     <Compile Include="Repository\SubjectRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Service\CustomExceptionValidationService.cs" />
     <Compile Include="Service\ICustomExceptionValidationService.cs" />
     <Compile Include="Service\IOrganizationService.cs" />
     <Compile Include="Service\ISubjectService.cs" />
+    <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\OrganizationService.cs" />
     <Compile Include="Service\SubjectService.cs" />
+    <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
