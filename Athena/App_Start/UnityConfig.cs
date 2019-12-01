@@ -17,8 +17,13 @@ namespace Athena
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
+            // Repo register
             container.RegisterType<IOrganizationRepository, OrganizationRepository>();
+            container.RegisterType<ISubjectRepository, SubjectRepository>();
+
+            // Service Register
             container.RegisterType<IOrganizationService, OrganizationService>();
+            container.RegisterType<ISubjectService, SubjectService>();
             container.RegisterType<ICustomExceptionValidationService, CustomExceptionValidationService>();
             // register all your components with the container here
             // it is NOT necessary to register your controllers
