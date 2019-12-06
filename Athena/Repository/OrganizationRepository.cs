@@ -1,10 +1,8 @@
 ﻿using Athena.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Athena.Repository
 {
@@ -27,23 +25,21 @@ namespace Athena.Repository
         /// </summary>
         /// <param name="organization"></param>
         /// <returns></returns>
-        public Task CreateOrganization(Organization organization)
+        public async Task CreateOrganization(Organization organization)
         {
-            return Task.Run(()=> {
-                _dbContext.Organization.Add(organization);
-                _dbContext.SaveChanges();
-            });
+            _dbContext.Organization.Add(organization);
+            await _dbContext.SaveChangesAsync();
         }
         /// <summary>
         /// Get Organization Details
         /// </summary>
         /// <param name="organizationId"></param>
         /// <returns>Organization</returns>
-        public Task<Organization> GetOrganization(Guid organizationId)
+        public async Task<Organization> GetOrganization(Guid organizationId)
         {
-            return Task.Run(() => {
-                return _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId);
-            });
+            return await Task.FromResult(
+                 _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId)
+            );
         }
         /// <summary>
         /// Get Organization By PublicId
@@ -59,12 +55,10 @@ namespace Athena.Repository
         /// Update Organization
         /// </summary>
         /// <param name="organization"></param>
-        public Task UpdateOrganization(Organization organization)
+        public async Task UpdateOrganization(Organization organization)
         {
-            return Task.Run(() => {
-                _dbContext.Entry(organization).State = EntityState.Modified;
-                _dbContext.SaveChanges();
-            });
+            _dbContext.Entry(organization).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

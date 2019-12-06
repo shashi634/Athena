@@ -129,6 +129,7 @@
     <Compile Include="Models\Dto\GetSubjectsDto.cs" />
     <Compile Include="Models\Dto\GetUserDto.cs" />
     <Compile Include="Models\Dto\OrganizationDto.cs" />
+    <Compile Include="Models\Dto\RegisterUserDto.cs" />
     <Compile Include="Models\Dto\ReturnOrganizationDto.cs" />
     <Compile Include="Models\Dto\ReturnUserDto.cs" />
     <Compile Include="Models\Dto\UpdateOrganizationDto.cs" />
