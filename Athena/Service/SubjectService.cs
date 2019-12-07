@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using Athena.Models;
 using Athena.Models.Dto;
 using Athena.Repository;
@@ -31,6 +29,7 @@ namespace Athena.Service
         /// Add/Update Subject
         /// </summary>
         /// <param name="addSubjectDto"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public Task<GetSubjectsDto> AddUpdateSubject(AddSubjectDto addSubjectDto, Guid id)
         {

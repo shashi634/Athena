@@ -105,7 +105,7 @@ namespace Athena.Service
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        public Task<GetOrganizationDto> GetOrganizationDetails(string orgId)
+        public async Task<GetOrganizationDto> GetOrganizationDetails(string orgId)
         {
             if (orgId == null)
             {
@@ -119,8 +119,8 @@ namespace Athena.Service
             if (orgDetails.Result == null) {
                 _customExceptionValidationService.CustomValidation("Organization Not Found", HttpStatusCode.NotFound);
             }
-            return Task.Run(()=> {
-                return new GetOrganizationDto { 
+            var data = new GetOrganizationDto
+            {
                 Name = orgDetails.Result.Name,
                 Address = orgDetails.Result.Address,
                 City = orgDetails.Result.City,
@@ -129,8 +129,8 @@ namespace Athena.Service
                 IsActive = orgDetails.Result.IsActive,
                 JoiningDate = orgDetails.Result.JoiningDate,
                 ActivationDate = orgDetails.Result.ActivationDate
-                };
-            });
+            };
+            return await Task.FromResult(data);
         }
     }
 }

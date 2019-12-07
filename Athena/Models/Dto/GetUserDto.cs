@@ -7,7 +7,7 @@ namespace Athena.Models.Dto
         public string Name { get; set; }
         public string EmailId { get; set; }
         public string MobileNo { get; set; }
-        public AddOrganizationDto AssociatedOrganization { get; set; }
+        public OrganizationDto AssociatedOrganization { get; set; }
         public string ProfilePic { get; set; }
         public int Currentlevel { get; set; }
         public bool IsActive { get; set; }

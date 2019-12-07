@@ -33,6 +33,11 @@ namespace Athena.Repository
         /// <param name="publicId"></param>
         /// <returns></returns>
         Organization GetOrganizationByPublicId(Guid publicId);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        Task<Organization> GetOrganizationById(int organizationId);
     }
 }

@@ -12,7 +12,7 @@ namespace Athena.Service
     /// </summary>
     public interface IUserService
     {
-        Task<Guid> UserRegistartion(AddUserDto userDto);
+        Task<Guid> UserRegistartion(RegisterUserDto userDto);
         Task<GetUserDto> GetUserByPublicId(string id);
     }
 }

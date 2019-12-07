@@ -60,5 +60,17 @@ namespace Athena.Repository
             _dbContext.Entry(organization).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// GetOrganizationById (Numeric)
+        /// </summary>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public async Task<Organization> GetOrganizationById(int organizationId)
+        {
+            return await Task.FromResult(
+                 _dbContext.Organization.FirstOrDefault(x => x.Id == organizationId)
+            );
+        }
     }
 }

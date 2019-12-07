@@ -43,7 +43,7 @@ namespace Athena.Models
 
         public DateTime? ActivationDate { get; set; }
 
-        public Guid? PublicId { get; set; }
+        public Guid PublicId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ExamSet> ExamSet { get; set; }

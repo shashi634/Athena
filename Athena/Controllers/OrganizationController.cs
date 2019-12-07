@@ -28,7 +28,7 @@ namespace Athena.Controllers
         /// </summary>
         /// <param name="organization"></param>
         /// <returns></returns>
-        [Route("api/Organization/Add")]
+        [Route("api/Organization")]
         [HttpPost]
         public async Task<HttpResponseMessage> AddOrganization(AddOrganizationDto organization)
         {
@@ -48,7 +48,7 @@ namespace Athena.Controllers
         /// <param name="orgId"></param>
         /// <param name="organization"></param>
         /// <returns></returns>
-        [Route("api/Organization/Update/{orgId}")]
+        [Route("api/Organization/{orgId}")]
         [HttpPut]
         public async Task<HttpResponseMessage> UpdateOrganization(string orgId, UpdateOrganizationDto organization)
         {
@@ -70,7 +70,7 @@ namespace Athena.Controllers
         /// </summary>
         /// <param name="orgId"></param>
         /// <returns>OrganizationDto</returns>
-        [Route("api/Organization/Get/{orgId}")]
+        [Route("api/Organization/{orgId}")]
         [HttpGet]
         public async Task<HttpResponseMessage> GetOrganization(string orgId)
         {
