@@ -27,9 +27,18 @@ namespace Athena.Controllers
         /// <returns>GetUserDto</returns>
         [Route("api/User")]
         [HttpGet]
-        public async Task<GetUserDto> GetUserDetails(string id)
+        public async Task<HttpResponseMessage> GetUserDetails(string id)
         {
-            return await Task.FromResult(_userService.GetUserByPublicId(id).Result);
+           var data =  await _userService.GetUserByPublicId(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/User")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AddUpdateSubject(RegisterUserDto addSubjectDto)
+        {
+           var data = await _userService.UserRegistartion(addSubjectDto);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

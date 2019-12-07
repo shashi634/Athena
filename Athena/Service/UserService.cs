@@ -76,7 +76,7 @@ namespace Athena.Service
         /// </summary>
         /// <param name="userDto"></param>
         /// <returns></returns>
-        public async Task<Guid> UserRegistartion(RegisterUserDto userDto)
+        public async Task<ReturnUserDto> UserRegistartion(RegisterUserDto userDto)
         {
             if (userDto == null)
             {
@@ -88,11 +88,15 @@ namespace Athena.Service
             }
             Regex regex = new Regex(@"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$");
             Match match = regex.Match(userDto.EmailId);
-            if (!match.Success) {
-                _customExceptionValidationService.CustomValidation("Incorrect EmailId.", HttpStatusCode.BadRequest);
-            }
+            //if (!match.Success) {
+            //    _customExceptionValidationService.CustomValidation("Incorrect EmailId.", HttpStatusCode.BadRequest);
+            //}
             if (userDto.Password.Length < 6) {
                 _customExceptionValidationService.CustomValidation("Password length sholuld be more than 6 charector count.", HttpStatusCode.BadRequest);
+            }
+            var dataIfUserAlreadyExists = _userRepository.GetUserByEmailId(userDto.EmailId);
+            if (dataIfUserAlreadyExists.Count() > 0) {
+                _customExceptionValidationService.CustomValidation("User Already Exists.", HttpStatusCode.Ambiguous);
             }
             // if OrganizationId is not passed then user will have to be associated with default Organization
             Organization userAssociatedOrganization;
@@ -113,13 +117,14 @@ namespace Athena.Service
                 Name = userDto.Name,
                 EmailId = userDto.EmailId,
                 Password = userDto.Password,
-                Organization = userAssociatedOrganization,
+                OrganizationId = userAssociatedOrganization.Id,
                 ActivationDate = System.DateTime.UtcNow,
+                JoiningDate = System.DateTime.UtcNow,
                 IsActive = true,
                 PublicId = Guid.NewGuid()
             };
             await _userRepository.RegisterUser(userDbModel);
-            return await Task.FromResult(userDbModel.PublicId);
+            return await Task.FromResult(new ReturnUserDto { Id = userDbModel.PublicId });
         }
     }
 }

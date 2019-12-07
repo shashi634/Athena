@@ -13,5 +13,6 @@ namespace Athena.Repository
         Task RegisterUser(User registerUser);
         Task UpdateUser(User updateUser);
         IQueryable<User> GetUserByGuid(Guid id);
+        IQueryable<User> GetUserByEmailId(string emailId);
     }
 }

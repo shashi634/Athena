@@ -20,10 +20,11 @@ namespace Athena
             // Repo register
             container.RegisterType<IOrganizationRepository, OrganizationRepository>();
             container.RegisterType<ISubjectRepository, SubjectRepository>();
-
+            container.RegisterType<IUserRepository, UserRepository>();
             // Service Register
             container.RegisterType<IOrganizationService, OrganizationService>();
             container.RegisterType<ISubjectService, SubjectService>();
+            container.RegisterType<IUserService, UserService>();
             container.RegisterType<ICustomExceptionValidationService, CustomExceptionValidationService>();
             // register all your components with the container here
             // it is NOT necessary to register your controllers

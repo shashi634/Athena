@@ -42,9 +42,10 @@ namespace Athena.Controllers
         /// <returns></returns>
         [Route("api/Subject/{id}")]
         [HttpGet]
-        public async Task<GetSubjectsDto> GetSubject(string id)
+        public async Task<HttpResponseMessage> GetSubject(string id)
         {
-            return await _subjectService.GetSubject(id);
+            var data = await _subjectService.GetSubject(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         /// <summary>
@@ -54,8 +55,9 @@ namespace Athena.Controllers
         /// <returns>GetSubjectsDto</returns>
         [Route("api/Subject")]
         [HttpPost]
-        public async Task<GetSubjectsDto> AddUpdateSubject(AddSubjectDto addSubjectDto) {
-            return await _subjectService.AddUpdateSubject(addSubjectDto, Guid.Empty);
+        public async Task<HttpResponseMessage> AddUpdateSubject(AddSubjectDto addSubjectDto) {
+            var data = await _subjectService.AddUpdateSubject(addSubjectDto, Guid.Empty);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         /// <summary>
@@ -66,9 +68,10 @@ namespace Athena.Controllers
         /// <returns>GetSubjectsDto</returns>
         [Route("api/Subject/{id}")]
         [HttpPut]
-        public async Task<GetSubjectsDto> AddUpdateSubject(AddSubjectDto addSubjectDto, Guid id)
+        public async Task<HttpResponseMessage> AddUpdateSubject(AddSubjectDto addSubjectDto, Guid id)
         {
-            return await _subjectService.AddUpdateSubject(addSubjectDto, id);
+            var data =  await _subjectService.AddUpdateSubject(addSubjectDto, id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

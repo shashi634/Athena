@@ -18,6 +18,13 @@ namespace Athena.Repository
         {
             _dbContext = dbContext;
         }
+
+        public IQueryable<User> GetUserByEmailId(string emailId)
+        {
+            IQueryable<User> user = _dbContext.User.Where(x => x.EmailId == emailId);
+            return user;
+        }
+
         /// <summary>
         /// GetUserByGuid
         /// </summary>
@@ -35,8 +42,17 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task RegisterUser(User registerUser)
         {
-            _dbContext.User.Add(registerUser);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.User.Add(registerUser);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var d = ex.Message;
+                throw;
+            }
+            
         }
 
         public async Task UpdateUser(User updateUser)
