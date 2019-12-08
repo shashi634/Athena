@@ -1,10 +1,8 @@
 namespace Athena.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("QuestionOption")]
     public class QuestionOption
@@ -25,7 +23,7 @@ namespace Athena.Models
 
         public bool IsCorrect { get; set; }
 
-        public virtual Organization Organization { get; set; }
+        public virtual OrgQuestion OrgQuestion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAnswer> UserAnswer { get; set; }
