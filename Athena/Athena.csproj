@@ -125,14 +125,17 @@
     </Compile>
     <Compile Include="Models\DbContextAthena.cs" />
     <Compile Include="Models\Dto\AddOrganizationDto.cs" />
+    <Compile Include="Models\Dto\AddQuestionDto.cs" />
     <Compile Include="Models\Dto\AddSubjectDto.cs" />
     <Compile Include="Models\Dto\AddUserDto.cs" />
     <Compile Include="Models\Dto\GetOrganizationDto.cs" />
+    <Compile Include="Models\Dto\GetQuestionDto.cs" />
     <Compile Include="Models\Dto\GetSubjectsDto.cs" />
     <Compile Include="Models\Dto\GetUserDto.cs" />
     <Compile Include="Models\Dto\OrganizationDto.cs" />
     <Compile Include="Models\Dto\RegisterUserDto.cs" />
     <Compile Include="Models\Dto\ReturnOrganizationDto.cs" />
+    <Compile Include="Models\Dto\ReturnQuestionDto.cs" />
     <Compile Include="Models\Dto\ReturnUserDto.cs" />
     <Compile Include="Models\Dto\ReturnUserProfilePic.cs" />
     <Compile Include="Models\Dto\UpdateOrganizationDto.cs" />

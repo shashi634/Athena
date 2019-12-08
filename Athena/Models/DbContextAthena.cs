@@ -28,8 +28,8 @@ namespace Athena.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExamCoupan>()
-                .Property(e => e.Id)
-                .HasPrecision(18, 0);
+                 .Property(e => e.Id)
+                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<ExamCoupan>()
                 .Property(e => e.ExamSetId)
@@ -107,12 +107,6 @@ namespace Athena.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Organization>()
-                .HasMany(e => e.QuestionOption)
-                .WithRequired(e => e.Organization)
-                .HasForeignKey(e => e.QuestionId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Organization>()
                 .HasMany(e => e.User)
                 .WithRequired(e => e.Organization)
                 .WillCascadeOnDelete(false);
@@ -129,6 +123,12 @@ namespace Athena.Models
             modelBuilder.Entity<OrgQuestion>()
                 .Property(e => e.OrganizationId)
                 .HasPrecision(18, 0);
+
+            modelBuilder.Entity<OrgQuestion>()
+                .HasMany(e => e.QuestionOption)
+                .WithRequired(e => e.OrgQuestion)
+                .HasForeignKey(e => e.QuestionId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<OrgQuestion>()
                 .HasMany(e => e.UserAnswer)

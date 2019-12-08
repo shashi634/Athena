@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Athena.Models.Dto;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Athena.Service
 {
     public interface IQuestionService
     {
+        Task<ReturnQuestionDto> AddQuestion(string orgId, AddQuestionDto question);
+        Task<List<GetQuestionDto>> GetQuestions(string orgId, string subjectid);
+        Task<GetQuestionDto> GetQuestionsByQuestionId(string orgId, string questionId);
     }
 }
