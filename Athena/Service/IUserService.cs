@@ -14,5 +14,7 @@ namespace Athena.Service
     {
         Task<ReturnUserDto> UserRegistartion(RegisterUserDto userDto);
         Task<GetUserDto> GetUserByPublicId(string id);
+        Task<ReturnUserDto> UserProfileUpdate(AddUserDto userDto, string userId);
+        Task<ReturnUserProfilePic> UpdateUserProfilePic(string userId);
     }
 }

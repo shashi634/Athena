@@ -133,6 +133,7 @@
     <Compile Include="Models\Dto\RegisterUserDto.cs" />
     <Compile Include="Models\Dto\ReturnOrganizationDto.cs" />
     <Compile Include="Models\Dto\ReturnUserDto.cs" />
+    <Compile Include="Models\Dto\ReturnUserProfilePic.cs" />
     <Compile Include="Models\Dto\UpdateOrganizationDto.cs" />
     <Compile Include="Models\ExamCoupan.cs" />
     <Compile Include="Models\ExamFee.cs" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Userimage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

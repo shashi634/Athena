@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Athena.Models;
 
 namespace Athena.Repository
@@ -26,7 +25,7 @@ namespace Athena.Repository
         }
 
         /// <summary>
-        /// GetUserByGuid
+        /// Get User By Guid
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -36,28 +35,24 @@ namespace Athena.Repository
             return user;
         }
         /// <summary>
-        /// RegisterUser
+        /// Register User
         /// </summary>
         /// <param name="registerUser"></param>
         /// <returns></returns>
         public async Task RegisterUser(User registerUser)
         {
-            try
-            {
-                _dbContext.User.Add(registerUser);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                var d = ex.Message;
-                throw;
-            }
-            
+            _dbContext.User.Add(registerUser);
+            await _dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="updateUser"></param>
+        /// <returns></returns>
         public async Task UpdateUser(User updateUser)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(updateUser).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

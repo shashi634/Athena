@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using Athena.Models;
 using Athena.Models.Dto;
 using Athena.Repository;
@@ -71,6 +73,94 @@ namespace Athena.Service
             return await Task.FromResult(userDto);
         }
 
+        public async Task<ReturnUserProfilePic> UpdateUserProfilePic(string userId)
+        {
+            try
+            {
+                string userProfilePicUrl = string.Empty;
+                var httpRequest = HttpContext.Current.Request;
+                foreach (string file in httpRequest.Files)
+                {
+                    var postedFile = httpRequest.Files[file];
+                    if (postedFile != null && postedFile.ContentLength > 0)
+                    {
+                        int MaxContentLength = 1024 * 1024 * 1; //Size = 1 MB
+                        IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png", "jpeg" };
+                        var ext = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf('.'));
+                        var extension = ext.ToLower();
+                        if (!AllowedFileExtensions.Contains(extension))
+                        {
+                            _customExceptionValidationService.CustomValidation("Please Upload image of type .jpg,.jprg,.gif,.png.", HttpStatusCode.BadRequest);
+                        }
+                        else if (postedFile.ContentLength > MaxContentLength)
+                        {
+                            _customExceptionValidationService.CustomValidation("Please Upload a file upto 1 mb.", HttpStatusCode.BadRequest);
+                        }
+                        else
+                        {
+                            bool isValid = Guid.TryParse(userId, out Guid userPublicId);
+                            if (!isValid)
+                            {
+                                _customExceptionValidationService.CustomValidation("Invalid user Id", HttpStatusCode.BadRequest);
+                            }
+                            var userInfo = _userRepository.GetUserByGuid(userPublicId).FirstOrDefault();
+                            if (userInfo == null) {
+                                _customExceptionValidationService.CustomValidation("User not registered", HttpStatusCode.NotFound);
+                            }
+                            userInfo.ProfilePic = userInfo.Name+"-"+Convert.ToString(Guid.NewGuid()) + extension;
+                            userProfilePicUrl = userInfo.ProfilePic;
+                            var filePath = HttpContext.Current.Server.MapPath("~/Userimage/" + userInfo.ProfilePic);
+                            postedFile.SaveAs(filePath);
+                            await _userRepository.UpdateUser(userInfo);
+                        }
+                    }
+                }
+                return new ReturnUserProfilePic  { ProfilePicUrl = "/Userimage/" + userProfilePicUrl };
+            }
+            catch (Exception)
+            {
+                _customExceptionValidationService.CustomValidation("Something went wrong!", HttpStatusCode.InternalServerError);
+                return null;
+            }
+        }
+
+        public async Task<ReturnUserDto> UserProfileUpdate(AddUserDto userDto, string userId)
+        {
+            if (userDto == null)
+            {
+                _customExceptionValidationService.CustomValidation("Invalid Request", HttpStatusCode.BadRequest);
+            }
+            if (userDto.EmailId == null || userDto.Name == null)
+            {
+                _customExceptionValidationService.CustomValidation("Please pass correct value.", HttpStatusCode.BadRequest);
+            }
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(userDto.EmailId);
+            if (!match.Success)
+            {
+                _customExceptionValidationService.CustomValidation("Incorrect EmailId.", HttpStatusCode.BadRequest);
+            }
+            if (userDto.MobileNo != null) {
+                if (userDto.MobileNo.Count() != 10) {
+                    _customExceptionValidationService.CustomValidation("Mobile Number is incorrect!", HttpStatusCode.BadRequest);
+                }
+            }
+            bool isValid = Guid.TryParse(userId, out Guid userPublicId);
+            if (!isValid)
+            {
+                _customExceptionValidationService.CustomValidation("Invalid user Id", HttpStatusCode.BadRequest);
+            }
+            var userData = _userRepository.GetUserByGuid(userPublicId).FirstOrDefault();
+            userData.Name = userDto.Name;
+            userData.MobileNo = userDto.MobileNo;
+            userData.EmailId = userDto.EmailId;
+            userData.Address = userDto.Address;
+            userData.City = userDto.City;
+            userData.PinCode = userDto.PinCode;
+            await _userRepository.UpdateUser(userData);
+            return new ReturnUserDto { Id = userPublicId };
+        }
+
         /// <summary>
         /// User Registartion
         /// </summary>
@@ -86,11 +176,12 @@ namespace Athena.Service
             {
                 _customExceptionValidationService.CustomValidation("Please pass correct value.", HttpStatusCode.BadRequest);
             }
-            Regex regex = new Regex(@"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$");
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             Match match = regex.Match(userDto.EmailId);
-            //if (!match.Success) {
-            //    _customExceptionValidationService.CustomValidation("Incorrect EmailId.", HttpStatusCode.BadRequest);
-            //}
+            if (!match.Success)
+            {
+                _customExceptionValidationService.CustomValidation("Incorrect EmailId.", HttpStatusCode.BadRequest);
+            }
             if (userDto.Password.Length < 6) {
                 _customExceptionValidationService.CustomValidation("Password length sholuld be more than 6 charector count.", HttpStatusCode.BadRequest);
             }
