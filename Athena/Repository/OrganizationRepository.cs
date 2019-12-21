@@ -27,8 +27,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task CreateOrganization(Organization organization)
         {
-            _dbContext.Organization.Add(organization);
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Organization.Add(organization);
+                await _dbContext.SaveChangesAsync();
+            }
         }
         /// <summary>
         /// Get Organization Details
@@ -37,9 +40,12 @@ namespace Athena.Repository
         /// <returns>Organization</returns>
         public async Task<Organization> GetOrganization(Guid organizationId)
         {
-            return await Task.FromResult(
+            using (_dbContext)
+            {
+                return await Task.FromResult(
                  _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId)
             );
+            }
         }
         /// <summary>
         /// Get Organization By PublicId
@@ -48,7 +54,10 @@ namespace Athena.Repository
         /// <returns></returns>
         public Organization GetOrganizationByPublicId(Guid publicId)
         {
-            return _dbContext.Organization.FirstOrDefault(x => x.PublicId == publicId);
+            using (_dbContext)
+            {
+                return _dbContext.Organization.FirstOrDefault(x => x.PublicId == publicId);
+            }
         }
 
         /// <summary>
@@ -57,8 +66,11 @@ namespace Athena.Repository
         /// <param name="organization"></param>
         public async Task UpdateOrganization(Organization organization)
         {
-            _dbContext.Entry(organization).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Entry(organization).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -68,9 +80,12 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task<Organization> GetOrganizationById(int organizationId)
         {
-            return await Task.FromResult(
+            using (_dbContext)
+            {
+                return await Task.FromResult(
                  _dbContext.Organization.FirstOrDefault(x => x.Id == organizationId)
             );
+            }
         }
     }
 }

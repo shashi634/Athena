@@ -82,7 +82,7 @@ namespace Athena.Service
             }
         }
 
-        public Task<List<GetQuestionDto>> GetQuestions(string orgId, string subjectid)
+        public async Task<List<GetQuestionDto>> GetQuestions(string orgId, string subjectid)
         {
             bool isOrgValid = Guid.TryParse(orgId, out Guid orgPublicId);
             if (!isOrgValid)
@@ -104,12 +104,79 @@ namespace Athena.Service
             {
                 _customExceptionValidationService.CustomValidation("Incorrect Subject.", HttpStatusCode.NotFound);
             }
-            var getQuestions = _questinRepository.GetOrgQuestionsByOrgGuidAndSubjectId(orgPublicId, subjectPublicId).Result;
+            var getQuestions = _questinRepository.GetOrgQuestionsByOrgGuidAndSubjectId(orgPublicId, subjectPublicId);
+            var questionsDto = new List<GetQuestionDto>();
+            foreach (var item in getQuestions)
+            {
+                var x = new GetQuestionDto
+                {
+                    Question = item.Question
+                };
+                var options = new List<Options>();
+                foreach (var opt in item.QuestionOption)
+                {
+                    var k = new Options
+                    {
+                        Option = opt.QOption,
+                        IsCorrect = opt.IsCorrect
+                    };
+                    options.Add(k);
+                }
+                x.Options = options;
+                questionsDto.Add(x);
+            };
+            return await Task.FromResult(questionsDto);
         }
+    
 
         public Task<GetQuestionDto> GetQuestionsByQuestionId(string orgId, string questionId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<GetQuestionOnlyDto>> Questions(string orgId, string subjectid)
+        {
+            bool isOrgValid = Guid.TryParse(orgId, out Guid orgPublicId);
+            if (!isOrgValid)
+            {
+                _customExceptionValidationService.CustomValidation("Invalid Organization Id.", HttpStatusCode.BadRequest);
+            }
+            bool isSubjectValid = Guid.TryParse(subjectid, out Guid subjectPublicId);
+            if (!isSubjectValid)
+            {
+                _customExceptionValidationService.CustomValidation("Invalid Subject Id.", HttpStatusCode.BadRequest);
+            }
+            var orgData = _orgRepository.GetOrganizationByPublicId(orgPublicId);
+            if (orgData == null)
+            {
+                _customExceptionValidationService.CustomValidation("No Organization Registered.", HttpStatusCode.NotFound);
+            }
+            var subjectdata = _subjectRepository.GetSubjectByPublicId(subjectPublicId);
+            if (subjectdata == null)
+            {
+                _customExceptionValidationService.CustomValidation("Incorrect Subject.", HttpStatusCode.NotFound);
+            }
+            var getQuestions = _questinRepository.GetOrgQuestionsByOrgGuidAndSubjectId(orgPublicId, subjectPublicId);
+            var questionsDto = new List<GetQuestionOnlyDto>();
+            foreach (var item in getQuestions)
+            {
+                var x = new GetQuestionOnlyDto
+                {
+                    Question = item.Question
+                };
+                var options = new List<OptionsOnly>();
+                foreach (var opt in item.QuestionOption)
+                {
+                    var k = new OptionsOnly
+                    {
+                        Option = opt.QOption
+                    };
+                    options.Add(k);
+                }
+                x.Options = options;
+                questionsDto.Add(x);
+            };
+            return await Task.FromResult(questionsDto);
         }
     }
 }

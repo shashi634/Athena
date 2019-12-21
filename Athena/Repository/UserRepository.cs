@@ -20,8 +20,11 @@ namespace Athena.Repository
 
         public IQueryable<User> GetUserByEmailId(string emailId)
         {
-            IQueryable<User> user = _dbContext.User.Where(x => x.EmailId == emailId);
-            return user;
+            using (_dbContext)
+            {
+                IQueryable<User> user = _dbContext.User.Where(x => x.EmailId == emailId);
+                return user;
+            }
         }
 
         /// <summary>
@@ -31,8 +34,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public IQueryable<User> GetUserByGuid(Guid id)
         {
-            IQueryable<User> user = _dbContext.User.Where(x => x.PublicId == id);
-            return user;
+            using (_dbContext)
+            {
+                IQueryable<User> user = _dbContext.User.Where(x => x.PublicId == id);
+                return user;
+            }
         }
         /// <summary>
         /// Register User
@@ -41,8 +47,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task RegisterUser(User registerUser)
         {
-            _dbContext.User.Add(registerUser);
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.User.Add(registerUser);
+                await _dbContext.SaveChangesAsync();
+            }
         }
         /// <summary>
         /// Update User
@@ -51,8 +60,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task UpdateUser(User updateUser)
         {
-            _dbContext.Entry(updateUser).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Entry(updateUser).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

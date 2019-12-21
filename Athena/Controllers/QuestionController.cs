@@ -1,8 +1,5 @@
 ﻿using Athena.Models.Dto;
 using Athena.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,6 +24,21 @@ namespace Athena.Controllers
         public async Task<HttpResponseMessage> AddQuestion(AddQuestionDto question, string orgId)
         {
             var data = await _questionService.AddQuestion(orgId, question);
+            return Request.CreateResponse(HttpStatusCode.Created, data);
+        }
+        [Route("api/Question/{orgId}/{subjectId}")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetQuestionBySubjectId(string orgId, string subjectId)
+        {
+            var data = await _questionService.GetQuestions(orgId, subjectId);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [Route("api/Question/Exam/{orgId}/{subjectId}")]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetQuestionForExamBySubjectId(string orgId, string subjectId)
+        {
+            var data = await _questionService.Questions(orgId, subjectId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }

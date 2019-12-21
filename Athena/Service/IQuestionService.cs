@@ -10,5 +10,6 @@ namespace Athena.Service
         Task<ReturnQuestionDto> AddQuestion(string orgId, AddQuestionDto question);
         Task<List<GetQuestionDto>> GetQuestions(string orgId, string subjectid);
         Task<GetQuestionDto> GetQuestionsByQuestionId(string orgId, string questionId);
+        Task<List<GetQuestionOnlyDto>> Questions(string orgId, string subjectid);
     }
 }

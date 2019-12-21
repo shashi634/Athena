@@ -28,8 +28,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task AddSubject(Subject subject)
         {
-            _dbContext.Subject.Add(subject);
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Subject.Add(subject);
+                await _dbContext.SaveChangesAsync();
+            }
         }
         /// <summary>
         /// Get Subject By PublicId
@@ -38,7 +41,10 @@ namespace Athena.Repository
         /// <returns></returns>
         public Subject GetSubjectByPublicId(Guid id)
         {
-            return _dbContext.Subject.FirstOrDefault(x => x.PublicId == id);
+            using (_dbContext)
+            {
+                return _dbContext.Subject.FirstOrDefault(x => x.PublicId == id);
+            }
         }
         /// <summary>
         /// Get Subjects
@@ -46,7 +52,10 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task<List<Subject>> GetSubjects()
         {
-            return await Task.FromResult(_dbContext.Subject.ToList());
+            using (_dbContext)
+            {
+                return await Task.FromResult(_dbContext.Subject.ToList());
+            }
         }
         /// <summary>
         /// Update Subjects
@@ -55,8 +64,11 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task UpdateSubjects(Subject subject)
         {
-            _dbContext.Entry(subject).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Entry(subject).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

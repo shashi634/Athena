@@ -15,27 +15,37 @@ namespace Athena.Repository
         }
         public async Task AddQuestion(OrgQuestion question)
         {
-            _dbContext.OrgQuestion.Add(question);
-            foreach (var option in question.QuestionOption)
+            using (_dbContext)
             {
-                _dbContext.QuestionOption.Add(option);
+                _dbContext.OrgQuestion.Add(question);
+                foreach (var option in question.QuestionOption)
+                {
+                    _dbContext.QuestionOption.Add(option);
+                }
+                await _dbContext.SaveChangesAsync();
             }
-             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IQueryable<OrgQuestion>> GetOrgQuestionsByOrgGuid(Guid orgId)
         {
-            return await Task.FromResult(_dbContext.OrgQuestion.Where(x=>x.Organization.PublicId == orgId));
+            using (_dbContext)
+            {
+                return await Task.FromResult(_dbContext.OrgQuestion.Where(x => x.Organization.PublicId == orgId));
+            }
         }
-        public async Task<IQueryable<OrgQuestion>> GetOrgQuestionsByOrgGuidAndSubjectId(Guid orgId, Guid subjectId)
+        public IQueryable<OrgQuestion> GetOrgQuestionsByOrgGuidAndSubjectId(Guid orgId, Guid subjectId)
         {
-            return await Task.FromResult(_dbContext.OrgQuestion.Where(x => x.Organization.PublicId == orgId && x.Subject.PublicId == subjectId));
+             return _dbContext.OrgQuestion
+                .Where(x => x.Organization.PublicId == orgId && x.Subject.PublicId == subjectId);
         }
 
         public async Task UpdateQuestion(OrgQuestion question)
         {
-            _dbContext.Entry(question).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            using (_dbContext)
+            {
+                _dbContext.Entry(question).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

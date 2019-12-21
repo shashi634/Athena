@@ -11,6 +11,6 @@ namespace Athena.Repository
         Task<IQueryable<OrgQuestion>> GetOrgQuestionsByOrgGuid(Guid orgId);
         Task AddQuestion(OrgQuestion question);
         Task UpdateQuestion(OrgQuestion question);
-        Task<IQueryable<OrgQuestion>> GetOrgQuestionsByOrgGuidAndSubjectId(Guid orgId, Guid subjectId);
+        IQueryable<OrgQuestion> GetOrgQuestionsByOrgGuidAndSubjectId(Guid orgId, Guid subjectId);
     }
 }
