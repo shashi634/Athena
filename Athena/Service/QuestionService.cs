@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using Athena.Models;
 using Athena.Models.Dto;
 using Athena.Repository;
@@ -117,6 +115,7 @@ namespace Athena.Service
                 {
                     var k = new Options
                     {
+                        Id= opt.PublicId,
                         Option = opt.QOption,
                         IsCorrect = opt.IsCorrect
                     };

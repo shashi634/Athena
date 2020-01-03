@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Athena.Models.Dto
 {
@@ -10,6 +11,7 @@ namespace Athena.Models.Dto
     }
 
     public class Options {
+        public Guid Id { get; set; }
         public string Option { get; set; }
         public bool IsCorrect { get; set; }
     }

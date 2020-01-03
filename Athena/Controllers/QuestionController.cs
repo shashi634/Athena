@@ -26,6 +26,12 @@ namespace Athena.Controllers
             var data = await _questionService.AddQuestion(orgId, question);
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
+        /// <summary>
+        /// Get Question By SubjectId
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <param name="subjectId"></param>
+        /// <returns></returns>
         [Route("api/Question/{orgId}/{subjectId}")]
         [HttpGet]
         public async Task<HttpResponseMessage> GetQuestionBySubjectId(string orgId, string subjectId)
@@ -33,7 +39,12 @@ namespace Athena.Controllers
             var data = await _questionService.GetQuestions(orgId, subjectId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-
+        /// <summary>
+        /// Get Question For Exam By SubjectId
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <param name="subjectId"></param>
+        /// <returns></returns>
         [Route("api/Question/Exam/{orgId}/{subjectId}")]
         [HttpGet]
         public async Task<HttpResponseMessage> GetQuestionForExamBySubjectId(string orgId, string subjectId)

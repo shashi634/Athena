@@ -1,5 +1,6 @@
 namespace Athena.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,7 @@ namespace Athena.Models
         public string QOption { get; set; }
 
         public bool IsCorrect { get; set; }
-
+        public Guid PublicId { get; set; }
         public virtual OrgQuestion OrgQuestion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

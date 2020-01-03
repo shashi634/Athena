@@ -1,10 +1,7 @@
+using System.Data.Entity;
+
 namespace Athena.Models
 {
-    using System;
-    using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-
     public class DbContextAthena : DbContext
     {
         public DbContextAthena()
