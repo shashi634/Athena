@@ -1,9 +1,5 @@
 ﻿using Athena.Models;
-using Athena.Models.Dto;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Athena.Repository
@@ -12,7 +8,7 @@ namespace Athena.Repository
     {
         Task RegisterUser(User registerUser);
         Task UpdateUser(User updateUser);
-        IQueryable<User> GetUserByGuid(Guid id);
-        IQueryable<User> GetUserByEmailId(string emailId);
+        User GetUserByGuid(Guid id);
+        User GetUserByEmailId(string emailId);
     }
 }

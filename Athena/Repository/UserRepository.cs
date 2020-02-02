@@ -18,13 +18,9 @@ namespace Athena.Repository
             _dbContext = dbContext;
         }
 
-        public IQueryable<User> GetUserByEmailId(string emailId)
+        public User GetUserByEmailId(string emailId)
         {
-            using (_dbContext)
-            {
-                IQueryable<User> user = _dbContext.User.Where(x => x.EmailId == emailId);
-                return user;
-            }
+            return _dbContext.User.Where(x => x.EmailId == emailId).FirstOrDefault();
         }
 
         /// <summary>
@@ -32,13 +28,9 @@ namespace Athena.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public IQueryable<User> GetUserByGuid(Guid id)
+        public User GetUserByGuid(Guid id)
         {
-            using (_dbContext)
-            {
-                IQueryable<User> user = _dbContext.User.Where(x => x.PublicId == id);
-                return user;
-            }
+             return _dbContext.User.Where(x => x.PublicId == id).FirstOrDefault();
         }
         /// <summary>
         /// Register User

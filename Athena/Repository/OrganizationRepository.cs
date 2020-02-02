@@ -44,7 +44,7 @@ namespace Athena.Repository
             {
                 return await Task.FromResult(
                  _dbContext.Organization.FirstOrDefault(x => x.PublicId == organizationId)
-            );
+                );
             }
         }
         /// <summary>
@@ -54,10 +54,7 @@ namespace Athena.Repository
         /// <returns></returns>
         public Organization GetOrganizationByPublicId(Guid publicId)
         {
-            using (_dbContext)
-            {
-                return _dbContext.Organization.FirstOrDefault(x => x.PublicId == publicId);
-            }
+           return _dbContext.Organization.FirstOrDefault(x => x.PublicId == publicId);
         }
 
         /// <summary>
@@ -80,12 +77,9 @@ namespace Athena.Repository
         /// <returns></returns>
         public async Task<Organization> GetOrganizationById(int organizationId)
         {
-            using (_dbContext)
-            {
-                return await Task.FromResult(
+            return await Task.FromResult(
                  _dbContext.Organization.FirstOrDefault(x => x.Id == organizationId)
             );
-            }
         }
     }
 }

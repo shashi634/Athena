@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -44,7 +45,7 @@ namespace Athena.Service
             {
                 _customExceptionValidationService.CustomValidation("Invalid user Id", HttpStatusCode.BadRequest);
             }
-            var userDetails = _userRepository.GetUserByGuid(userPublicId).FirstOrDefault();
+            var userDetails = _userRepository.GetUserByGuid(userPublicId);
             if (userDetails == null)
             {
                 _customExceptionValidationService.CustomValidation("User doesn't exists!", HttpStatusCode.NotFound);
@@ -103,7 +104,7 @@ namespace Athena.Service
                             {
                                 _customExceptionValidationService.CustomValidation("Invalid user Id", HttpStatusCode.BadRequest);
                             }
-                            var userInfo = _userRepository.GetUserByGuid(userPublicId).FirstOrDefault();
+                            var userInfo = _userRepository.GetUserByGuid(userPublicId);
                             if (userInfo == null) {
                                 _customExceptionValidationService.CustomValidation("User not registered", HttpStatusCode.NotFound);
                             }
@@ -150,7 +151,7 @@ namespace Athena.Service
             {
                 _customExceptionValidationService.CustomValidation("Invalid user Id", HttpStatusCode.BadRequest);
             }
-            var userData = _userRepository.GetUserByGuid(userPublicId).FirstOrDefault();
+            var userData = _userRepository.GetUserByGuid(userPublicId);
             userData.Name = userDto.Name;
             userData.MobileNo = userDto.MobileNo;
             userData.EmailId = userDto.EmailId;
@@ -186,7 +187,8 @@ namespace Athena.Service
                 _customExceptionValidationService.CustomValidation("Password length sholuld be more than 6 charector count.", HttpStatusCode.BadRequest);
             }
             var dataIfUserAlreadyExists = _userRepository.GetUserByEmailId(userDto.EmailId);
-            if (dataIfUserAlreadyExists.Count() > 0) {
+            if (dataIfUserAlreadyExists != null)
+            {
                 _customExceptionValidationService.CustomValidation("User Already Exists.", HttpStatusCode.Ambiguous);
             }
             // if OrganizationId is not passed then user will have to be associated with default Organization
@@ -207,7 +209,7 @@ namespace Athena.Service
             {
                 Name = userDto.Name,
                 EmailId = userDto.EmailId,
-                Password = userDto.Password,
+                Password = Encryptpass(userDto.Password),
                 OrganizationId = userAssociatedOrganization.Id,
                 ActivationDate = System.DateTime.UtcNow,
                 JoiningDate = System.DateTime.UtcNow,
@@ -216,6 +218,10 @@ namespace Athena.Service
             };
             await _userRepository.RegisterUser(userDbModel);
             return await Task.FromResult(new ReturnUserDto { Id = userDbModel.PublicId });
+        }
+        public string Encryptpass(string password)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(password));
         }
     }
 }
