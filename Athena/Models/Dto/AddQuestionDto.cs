@@ -15,7 +15,11 @@ namespace Athena.Models.Dto
         public string Option { get; set; }
         public bool IsCorrect { get; set; }
     }
-
+    public class GetOptions
+    {
+        public Guid Id { get; set; }
+        public string Option { get; set; }
+    }
     public class QuestionsOnly
     {
         public string Question { get; set; }

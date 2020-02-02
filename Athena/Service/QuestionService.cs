@@ -65,7 +65,8 @@ namespace Athena.Service
                         QOption = option.Option,
                         IsCorrect = option.IsCorrect,
                         QuestionId = dbQuestionModel.Id,
-                        OrgQuestion = dbQuestionModel
+                        OrgQuestion = dbQuestionModel,
+                        PublicId = Guid.NewGuid()
                     };
                     questionOptions.Add(q);
                 }
@@ -108,16 +109,16 @@ namespace Athena.Service
             {
                 var x = new GetQuestionDto
                 {
-                    Question = item.Question
+                    Question = item.Question,
+                    Id = item.PublicId
                 };
-                var options = new List<Options>();
+                var options = new List<GetOptions>();
                 foreach (var opt in item.QuestionOption)
                 {
-                    var k = new Options
+                    var k = new GetOptions
                     {
                         Id= opt.PublicId,
-                        Option = opt.QOption,
-                        IsCorrect = opt.IsCorrect
+                        Option = opt.QOption
                     };
                     options.Add(k);
                 }
